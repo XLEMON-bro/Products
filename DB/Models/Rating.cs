@@ -6,13 +6,16 @@ namespace DB.Models
     public class Rating
     {
         [Key]
-        public int Id { get; set; }
+        [MaxLength(100)]
+        public string Id { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        [MaxLength(100)]
+        [Required]
+        public string ProductId { get; set; }
         public virtual Product Product { get; set; }
 
         public int RatingValue { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

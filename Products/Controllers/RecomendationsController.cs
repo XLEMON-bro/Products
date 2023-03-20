@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DB;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProductServices.Core.Interfaces;
 using System;
@@ -16,7 +17,7 @@ namespace Products.Controllers
 
         private IRecomendationService _recomendationService;
 
-        public RecomendationsController(ILogger<RecomendationsController> logger, IRecomendationService recomendationService)
+        public RecomendationsController(ILogger<RecomendationsController> logger, IRecomendationService recomendationService, ProductContext context)
         {
             _logger = logger;
             _recomendationService = recomendationService;
@@ -24,14 +25,14 @@ namespace Products.Controllers
 
         [HttpGet]
         [Route("mostpopular")]
-        public JsonResult GetMostPopularProducts()
+        public async Task<JsonResult> GetMostPopularProducts()
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpGet]
         [Route("bycategory")]
-        public JsonResult GetPopularProductsByCategory(string category)
+        public async Task<JsonResult> GetPopularProductsByCategory(string category)
         {
             return new JsonResult("popularbycategory");
         }

@@ -9,15 +9,19 @@ namespace DB.Models
     public class Product
     {
         [Key]
-        public int ProductId { get; set; }
+        [MaxLength(100)]
+        public string ProductId { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
         [MaxLength(100)]
+        [Required]
         public string Name { get; set; }
         public string ImageURL { get; set; }
 
         [ForeignKey("Category")]
-        public int CategoryId { get; set; }
+        [MaxLength(100)]
+        [Required]
+        public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public virtual List<Rating> Raiting { get; set; }
         public virtual View View { get; set; }
