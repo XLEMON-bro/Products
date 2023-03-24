@@ -9,8 +9,9 @@ namespace DB.Interfaces
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(string id);
-        Task AddAsync(T entity);
-        void Update(T entity);
-        Task DeleteAsync(string id);
+        Task<bool> AddAsync(T entity);
+        Task<bool> AddRangeAsync(IEnumerable<T> entities);
+        bool Update(T entity);
+        Task<bool> DeleteAsync(string id);
     }
 }

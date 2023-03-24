@@ -10,11 +10,20 @@ namespace Products.JsonModels
     {
         [JsonProperty("id")]
         public int Id { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
-        [JsonProperty("category")]
-        public string Category { get; set; }
-        [JsonProperty("viewcount")]
-        public int ViewCount { get; set; }
+
+        [JsonProperty("categoryid")]
+        public string CategoryID { get; set; }
+
+        [JsonProperty("categoryname")]
+        public string CategoryName { get; set; }
+
+        [JsonProperty("imageurl")]
+        public string ImageURL { get; set; }
+
+        [JsonProperty("totalviews")]
+        public int TotalViews { get; set; }
     }
 }

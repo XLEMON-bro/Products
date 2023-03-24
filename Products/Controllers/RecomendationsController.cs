@@ -17,7 +17,7 @@ namespace Products.Controllers
 
         private IRecomendationService _recomendationService;
 
-        public RecomendationsController(ILogger<RecomendationsController> logger, IRecomendationService recomendationService, ProductContext context)
+        public RecomendationsController(ILogger<RecomendationsController> logger, IRecomendationService recomendationService)
         {
             _logger = logger;
             _recomendationService = recomendationService;

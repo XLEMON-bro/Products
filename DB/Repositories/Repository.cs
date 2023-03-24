@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,9 +10,9 @@ namespace DB.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ProductContext _context;
-        private readonly DbSet<T> _dbSet;
-
+        protected readonly ProductContext _context;
+        protected readonly DbSet<T> _dbSet;
+        //TODO : Add loggs of errors
         public Repository(ProductContext context)
         {
             _context = context;
@@ -20,32 +21,100 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            try
+            {
+                return await _dbSet.ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                return Enumerable.Empty<T>();
+            }
         }
 
         public async Task<T> GetByIdAsync(string id)
         {
-            return await _dbSet.FindAsync(id);
+            try
+            {
+                return await _dbSet.FindAsync(id);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _dbSet.AddAsync(entity);
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
-        public void Update(T entity)
+        public bool Update(T entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
+            try
+            {
+                _dbSet.Attach(entity);
+                _context.Entry(entity).State = EntityState.Modified;
+                if(_context.SaveChanges() > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task<bool> AddRangeAsync(IEnumerable<T> entities)
         {
-            T entity = await _dbSet.FindAsync(id);
-            _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Set<T>().AddRangeAsync(entities);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            try
+            {
+                T entity = await _dbSet.FindAsync(id);
+                _dbSet.Remove(entity);
+                if(await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
