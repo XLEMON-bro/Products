@@ -23,6 +23,7 @@ namespace DIResolver
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             serviceCollection.AddScoped<IRecomendationService, RecomendationService>();
             serviceCollection.AddScoped(typeof(IProductRepository<>), typeof(ProductRepository<>));
+            serviceCollection.AddScoped(typeof(IViewRepository<>), typeof(ViewRepository<>));
             serviceCollection.AddScoped<ICategoryService, CategoryService>();
             serviceCollection.AddScoped<IViewService, ViewService>();
             serviceCollection.AddScoped<ILikeService, LikeService>();

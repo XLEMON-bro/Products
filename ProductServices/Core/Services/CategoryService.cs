@@ -50,14 +50,17 @@ namespace ProductServices.Core.Services
         {
             var category = await _categoryRepository.GetByIdAsync(id);
 
+            if (category == null)
+                return null;
+
             return _mapper.Map<CategoryModel>(category);
         }
 
-        public bool UpdateCategory(CategoryModel categoryModel)
+        public async Task<bool> UpdateCategory(CategoryModel categoryModel, string id)
         {
             var category = _mapper.Map<Category>(categoryModel);
 
-            return _categoryRepository.Update(category);
+            return await _categoryRepository.Update(category);
         }
     }
 }

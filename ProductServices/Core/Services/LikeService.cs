@@ -50,14 +50,17 @@ namespace ProductServices.Core.Services
         {
             var like = await _likeRepository.GetByIdAsync(id);
 
+            if (like == null)
+                return null;
+
             return _mapper.Map<LikeModel>(like);
         }
 
-        public bool UpdateLike(LikeModel likeModel)
+        public async Task<bool> UpdateLike(LikeModel likeModel, string id)
         {
             var like = _mapper.Map<Like>(likeModel);
 
-            return _likeRepository.Update(like);
+            return await _likeRepository.Update(like);
         }
     }
 }

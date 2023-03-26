@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Products.Controllers
 {
-    [Route("api/rating")]
+    [Route("api/ratings")]
     [ApiController]
     public class RatingController : ControllerBase
     {

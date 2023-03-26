@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Products.Controllers
 {
-    [Route("api/like")]
+    [Route("api/likes")]
     [ApiController]
     public class LikeController : ControllerBase
     {

@@ -7,14 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ProductServices.Helpers;
 
 namespace ProductServices.Core.Services
 {
     public class ViewService : IViewService
     {
-        IRepository<View> _viewRepository;
+        IViewRepository<View> _viewRepository;
         IMapper _mapper;
-        public ViewService(IRepository<View> viewRepository, IMapper mapper)
+        public ViewService(IViewRepository<View> viewRepository, IMapper mapper)
         {
             _viewRepository = viewRepository;
             _mapper = mapper;
@@ -24,12 +25,33 @@ namespace ProductServices.Core.Services
         {
             var view = _mapper.Map<View>(viewModel);
 
+            var guid = GuidHelper.GenerateGuid();
+
+            while (await GetViewByIdAsync(guid) != null)
+            {
+                guid = GuidHelper.GenerateGuid();
+            }
+
+            view.Id = guid;
+
             return await _viewRepository.AddAsync(view);
         }
 
         public async Task<bool> AddViewsAsync(IEnumerable<ViewModel> viewsModel)
         {
             var viewList = _mapper.Map<List<View>>(viewsModel);
+
+            var guid = GuidHelper.GenerateGuid();
+
+            foreach (var view in viewList)
+            {
+                while (await GetViewByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                view.Id = guid;
+            }
 
             return await _viewRepository.AddRangeAsync(viewList);
         }
@@ -50,14 +72,38 @@ namespace ProductServices.Core.Services
         {
             var view = await _viewRepository.GetByIdAsync(id);
 
+            if (view == null)
+                return null;
+
             return _mapper.Map<ViewModel>(view);
         }
 
-        public bool UpdateView(ViewModel viewModel)
+        public async Task<bool> UpdateView(ViewModel viewModel, string id)
         {
-            var view = _mapper.Map<View>(viewModel);
+            var view = await _viewRepository.GetByIdAsync(id);
 
-            return _viewRepository.Update(view);
+            if (view == null)
+            {
+                return false;
+            }
+
+            view.ProductId = viewModel.ProductId;
+            view.TodayViews = viewModel.TodayViews;
+            view.TotalViews = viewModel.TotalViews;
+
+            return await _viewRepository.Update(view);
+        }
+
+        public async Task<ViewModel> GetViewByProductId(string productId)
+        {
+            var view = await _viewRepository.GetViewByProductId(productId);
+
+            if(view == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<ViewModel>(view);
         }
     }
 }

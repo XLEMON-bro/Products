@@ -11,7 +11,7 @@ namespace DB.Interfaces
         Task<T> GetByIdAsync(string id);
         Task<bool> AddAsync(T entity);
         Task<bool> AddRangeAsync(IEnumerable<T> entities);
-        bool Update(T entity);
+        Task<bool> Update(T entity);
         Task<bool> DeleteAsync(string id);
     }
 }

@@ -15,7 +15,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<RatingModel> GetRatingByIdAsync(string id);
 
-        public bool UpdateRating(RatingModel rating);
+        public Task<bool> UpdateRating(RatingModel rating, string id);
 
         public Task<IEnumerable<RatingModel>> GetAllRatingsAsync();
 

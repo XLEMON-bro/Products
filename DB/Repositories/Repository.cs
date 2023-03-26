@@ -62,13 +62,13 @@ namespace DB.Repositories
             }
         }
 
-        public bool Update(T entity)
+        public async Task<bool> Update(T entity)
         {
             try
             {
                 _dbSet.Attach(entity);
                 _context.Entry(entity).State = EntityState.Modified;
-                if(_context.SaveChanges() > 0)
+                if(await _context.SaveChangesAsync() > 0)
                 {
                     return true;
                 }
@@ -103,7 +103,14 @@ namespace DB.Repositories
             try
             {
                 T entity = await _dbSet.FindAsync(id);
+
+                if(entity == null)
+                {
+                    return false;
+                }
+
                 _dbSet.Remove(entity);
+
                 if(await _context.SaveChangesAsync() > 0)
                 {
                     return true;

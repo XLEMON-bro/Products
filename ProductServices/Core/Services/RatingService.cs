@@ -50,14 +50,17 @@ namespace ProductServices.Core.Services
         {
             var rating = await _ratingRepository.GetByIdAsync(id);
 
+            if (rating == null)
+                return null;
+
             return _mapper.Map<RatingModel>(rating);
         }
 
-        public bool UpdateRating(RatingModel ratingModel)
+        public async Task<bool> UpdateRating(RatingModel ratingModel, string id)
         {
             var rating = _mapper.Map<Rating>(ratingModel);
 
-            return _ratingRepository.Update(rating);
+            return await _ratingRepository.Update(rating);
         }
     }
 }

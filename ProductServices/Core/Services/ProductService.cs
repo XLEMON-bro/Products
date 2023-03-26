@@ -46,9 +46,9 @@ namespace ProductServices.Core.Services
             return _mapper.Map<List<ProductModel>>(products);
         }
 
-        public async Task<IEnumerable<ProductModel>> GetPaginatedProductsAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<ProductModel>> GetPaginatedProductsByCategoryAsync(int pageIndex, int pageSize, string categoryId)
         {
-            var produts = await _productRepository.GetPaginatedAsync(pageIndex, pageSize);
+            var produts = await _productRepository.GetPaginatedAsync(pageIndex, pageSize, categoryId);
 
             return _mapper.Map<List<ProductModel>>(produts);
         }
@@ -57,14 +57,42 @@ namespace ProductServices.Core.Services
         {
             var product = await _productRepository.GetByIdAsync(id);
 
+            if (product == null)
+                return null;
+
             return _mapper.Map<ProductModel>(product);
         }
 
-        public bool UpdateProduct(ProductModel productModel)
+        public async Task<bool> UpdateProduct(ProductModel productModel, string id)
         {
             var product = _mapper.Map<Product>(productModel);
 
-            return _productRepository.Update(product);
+            return await _productRepository.Update(product);
         }
+
+        public async Task<ProductWithDetailsModel> GetProductWithDetailsById(string id)
+        {
+            var product = await _productRepository.GetProductWithDetails(id);
+
+            if (product == null)
+                return null;
+
+            return _mapper.Map<ProductWithDetailsModel>(product);
+        }
+
+        public async Task<bool> AddProductWithDetailsAsync(ProductWithDetailsModel productModel)
+        {
+            var product = _mapper.Map<Product>(productModel);
+
+            return await _productRepository.AddAsync(product);
+        }
+
+        public async Task<IEnumerable<ProductModel>> GetProductsByCategory(int Size, string categoryId)
+        {
+            var produts = await _productRepository.GetProductsByCategory(Size, categoryId);
+
+            return _mapper.Map<List<ProductModel>>(produts);
+        }
+
     }
 }

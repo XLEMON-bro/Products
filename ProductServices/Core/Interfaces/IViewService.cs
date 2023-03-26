@@ -15,10 +15,11 @@ namespace ProductServices.Core.Interfaces
 
         public Task<ViewModel> GetViewByIdAsync(string id);
 
-        public bool UpdateView(ViewModel view);
+        public Task<bool> UpdateView(ViewModel view, string id);
 
         public Task<IEnumerable<ViewModel>> GetAllViewsAsync();
 
         public Task<bool> AddViewsAsync(IEnumerable<ViewModel> views);
+        public Task<ViewModel> GetViewByProductId(string productId);
     }
 }

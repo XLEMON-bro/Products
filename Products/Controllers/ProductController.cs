@@ -23,29 +23,29 @@ namespace Products.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
-        public async Task<JsonResult> GetProductById(string id)
+        [Route("{id}")]
+        public async Task<ActionResult> GetProductById(string id)
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpGet]
-        [Route("getall")]
-        public async Task<JsonResult> GetAllProducts()
+        [Route("all")]
+        public async Task<ActionResult> GetAllProducts()
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpGet]
-        [Route("getpaginated/{pageIndex}{pageSize}")]
-        public async Task<JsonResult> GetPaginatedProducts(int? pageIndex, int? pageSize)
+        [Route("paginated")]
+        public async Task<ActionResult> GetPaginatedProducts(int? pageIndex = 1, int? pageSize = 10)
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpPut]
-        [Route("update/{id}")]
-        public async Task<IActionResult> UpdateProduct(string id)
+        [Route("{id}")]
+        public async Task<ActionResult> UpdateProduct(string id)
         {
 
             
@@ -53,22 +53,21 @@ namespace Products.Controllers
         }
 
         [HttpPost]
-        [Route("add")]
-        public async Task<JsonResult> AddProduct()
+        public async Task<ActionResult> AddProduct()
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpPost]
         [Route("addrange")]
-        public async Task<JsonResult> AddProducts()
+        public async Task<ActionResult> AddProducts()
         {
             return new JsonResult("mostpopularproducts");
         }
 
         [HttpDelete]
-        [Route("delete/{id}")]
-        public async Task<JsonResult> DeleteProductById(string id)
+        [Route("{id}")]
+        public async Task<ActionResult> DeleteProductById(string id)
         {
             return new JsonResult("mostpopularproducts");
         }

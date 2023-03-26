@@ -16,7 +16,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<CategoryModel> GetCategotyByIdAsync(string id);
 
-        public bool UpdateCategory(CategoryModel category);
+        public Task<bool> UpdateCategory(CategoryModel category, string id);
 
         public Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync();
 

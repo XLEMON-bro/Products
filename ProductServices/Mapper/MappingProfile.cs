@@ -25,6 +25,9 @@ namespace ProductServices.Mapper
 
             CreateMap<ViewModel, View>();
             CreateMap<View, ViewModel>();
+
+            CreateMap<ProductWithDetailsModel, Product>();
+            CreateMap<Product, ProductWithDetailsModel>();
         }
     }
 }

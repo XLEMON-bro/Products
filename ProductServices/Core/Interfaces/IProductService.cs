@@ -15,12 +15,18 @@ namespace ProductServices.Core.Interfaces
 
         public Task<ProductModel> GetProductByIdAsync(string id);
 
-        public bool UpdateProduct(ProductModel product);
+        public Task<bool> UpdateProduct(ProductModel product, string id);
 
         public Task<IEnumerable<ProductModel>> GetAllProductsAsync();
 
         public Task<bool> AddProductsAsync(IEnumerable<ProductModel> products);
 
-        public Task<IEnumerable<ProductModel>> GetPaginatedProductsAsync(int pageIndex, int pageSize);
+        public Task<IEnumerable<ProductModel>> GetPaginatedProductsByCategoryAsync(int pageIndex, int pageSize, string categoryId);
+
+        public Task<ProductWithDetailsModel> GetProductWithDetailsById(string id);
+
+        public Task<bool> AddProductWithDetailsAsync(ProductWithDetailsModel product);
+
+        public Task<IEnumerable<ProductModel>> GetProductsByCategory(int Size, string categoryId);
     }
 }

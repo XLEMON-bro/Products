@@ -15,7 +15,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<LikeModel> GetLikeByIdAsync(string id);
 
-        public bool UpdateLike(LikeModel like);
+        public Task<bool> UpdateLike(LikeModel like, string id);
 
         public Task<IEnumerable<LikeModel>> GetAllLikesAsync();
 
