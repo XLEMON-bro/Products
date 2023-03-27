@@ -74,22 +74,16 @@ namespace Products.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
-        public async Task<ActionResult> UpdateView(string id, ViewModel viewModel)
+        public async Task<ActionResult> UpdateView(ViewModel viewModel)
         {
-            if(id != viewModel.Id)
-            {
-                return BadRequest("Id for Update dissmatch with viewId");
-            }
-
-            var updated = await _viewService.UpdateView(viewModel, id);
+            var updated = await _viewService.UpdateView(viewModel);
 
             if (updated)
             {
                 return Ok();
             }
 
-            return BadRequest($"Unable to update view with Id: {id}");
+            return BadRequest($"Unable to update view with Id: {viewModel.Id}");
         }
     }
 }

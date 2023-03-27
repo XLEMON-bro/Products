@@ -10,13 +10,13 @@ namespace ProductServices.Core.Interfaces
 {
     public interface ICategoryService
     {
-        public Task<bool> AddCategotyAsync(CategoryModel category);
+        public Task<bool> AddCategoryAsync(CategoryModel category);
 
-        public Task<bool> DeleteCategotyAsync(string id);
+        public Task<bool> DeleteCategoryAsync(string id);
 
-        public Task<CategoryModel> GetCategotyByIdAsync(string id);
+        public Task<CategoryModel> GetCategoryByIdAsync(string id);
 
-        public Task<bool> UpdateCategory(CategoryModel category, string id);
+        public Task<bool> UpdateCategory(CategoryModel category);
 
         public Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync();
 

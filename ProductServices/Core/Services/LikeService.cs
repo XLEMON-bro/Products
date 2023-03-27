@@ -12,9 +12,9 @@ namespace ProductServices.Core.Services
 {
     public class LikeService : ILikeService
     {
-        IRepository<Like> _likeRepository;
+        ILikeRepository<Like> _likeRepository;
         IMapper _mapper;
-        public LikeService(IRepository<Like> likeRepository, IMapper mapper)
+        public LikeService(ILikeRepository<Like> likeRepository, IMapper mapper)
         {
             _likeRepository = likeRepository;
             _mapper = mapper;
@@ -56,11 +56,34 @@ namespace ProductServices.Core.Services
             return _mapper.Map<LikeModel>(like);
         }
 
-        public async Task<bool> UpdateLike(LikeModel likeModel, string id)
+        public async Task<bool> UpdateLike(LikeModel likeModel)
         {
-            var like = _mapper.Map<Like>(likeModel);
+            var like = await _likeRepository.GetByIdAsync(likeModel.Id);
+
+            if (like == null)
+            {
+                return false;
+            }
+
+            like.ProductId = likeModel.ProductId;
+            like.TotalLikes = likeModel.TotalLikes;
+            like.TotalDislikes = likeModel.TotalDislikes;
+            like.TodayLikes = likeModel.TodayLikes;
+            like.TodayDislikes = likeModel.TodayDislikes;
 
             return await _likeRepository.Update(like);
+        }
+
+        public async Task<LikeModel> GetLikeByProductId(string productId)
+        {
+            var view = await _likeRepository.GetLikeByProductId(productId);
+
+            if (view == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<LikeModel>(view);
         }
     }
 }

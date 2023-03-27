@@ -63,9 +63,24 @@ namespace ProductServices.Core.Services
             return _mapper.Map<ProductModel>(product);
         }
 
-        public async Task<bool> UpdateProduct(ProductModel productModel, string id)
+        public async Task<bool> UpdateProduct(ProductWithDetailsModel productModel)
         {
-            var product = _mapper.Map<Product>(productModel);
+            var product = await _productRepository.GetByIdAsync(productModel.ProductId);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.Price = productModel.Price;
+            product.Description = productModel.Description;
+            product.Name = productModel.Name;
+            product.ImageURL = productModel.ImageURL;
+            product.CategoryId = productModel.CategoryId;
+            product.Category = productModel.Category == null ? product.Category : productModel.Category;
+            product.View = productModel.View == null ? product.View : productModel.View;
+            product.Like = productModel.Like == null ? product.Like : productModel.Like;
+            product.Raiting = productModel.Raiting.Count == 0 ? product.Raiting : productModel.Raiting;
 
             return await _productRepository.Update(product);
         }

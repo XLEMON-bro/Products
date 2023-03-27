@@ -15,10 +15,12 @@ namespace ProductServices.Core.Interfaces
 
         public Task<RatingModel> GetRatingByIdAsync(string id);
 
-        public Task<bool> UpdateRating(RatingModel rating, string id);
+        public Task<bool> UpdateRating(RatingModel rating);
 
         public Task<IEnumerable<RatingModel>> GetAllRatingsAsync();
 
         public Task<bool> AddRatingsAsync(IEnumerable<RatingModel> ratings);
+
+        public Task<IEnumerable<Rating>> GetRatingsByProductId(string productId);
     }
 }

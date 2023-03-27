@@ -15,7 +15,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<ViewModel> GetViewByIdAsync(string id);
 
-        public Task<bool> UpdateView(ViewModel view, string id);
+        public Task<bool> UpdateView(ViewModel view);
 
         public Task<IEnumerable<ViewModel>> GetAllViewsAsync();
 

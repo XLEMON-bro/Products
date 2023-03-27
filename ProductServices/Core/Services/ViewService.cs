@@ -78,9 +78,9 @@ namespace ProductServices.Core.Services
             return _mapper.Map<ViewModel>(view);
         }
 
-        public async Task<bool> UpdateView(ViewModel viewModel, string id)
+        public async Task<bool> UpdateView(ViewModel viewModel)
         {
-            var view = await _viewRepository.GetByIdAsync(id);
+            var view = await _viewRepository.GetByIdAsync(viewModel.Id);
 
             if (view == null)
             {

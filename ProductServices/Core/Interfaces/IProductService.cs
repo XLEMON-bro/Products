@@ -15,7 +15,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<ProductModel> GetProductByIdAsync(string id);
 
-        public Task<bool> UpdateProduct(ProductModel product, string id);
+        public Task<bool> UpdateProduct(ProductWithDetailsModel product);
 
         public Task<IEnumerable<ProductModel>> GetAllProductsAsync();
 

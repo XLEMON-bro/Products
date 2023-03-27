@@ -24,6 +24,8 @@ namespace DIResolver
             serviceCollection.AddScoped<IRecomendationService, RecomendationService>();
             serviceCollection.AddScoped(typeof(IProductRepository<>), typeof(ProductRepository<>));
             serviceCollection.AddScoped(typeof(IViewRepository<>), typeof(ViewRepository<>));
+            serviceCollection.AddScoped(typeof(ILikeRepository<>), typeof(LikeRepository<>));
+            serviceCollection.AddScoped(typeof(IRatingRepository<>), typeof(RatingRepository<>));
             serviceCollection.AddScoped<ICategoryService, CategoryService>();
             serviceCollection.AddScoped<IViewService, ViewService>();
             serviceCollection.AddScoped<ILikeService, LikeService>();

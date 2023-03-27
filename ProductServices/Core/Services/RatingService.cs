@@ -12,9 +12,9 @@ namespace ProductServices.Core.Services
 {
     public class RatingService : IRatingService
     {
-        IRepository<Rating> _ratingRepository;
+        IRatingRepository<Rating> _ratingRepository;
         IMapper _mapper;
-        public RatingService(IRepository<Rating> ratingRepository, IMapper mapper)
+        public RatingService(IRatingRepository<Rating> ratingRepository, IMapper mapper)
         {
             _ratingRepository = ratingRepository;
             _mapper = mapper;
@@ -56,11 +56,32 @@ namespace ProductServices.Core.Services
             return _mapper.Map<RatingModel>(rating);
         }
 
-        public async Task<bool> UpdateRating(RatingModel ratingModel, string id)
+        public async Task<bool> UpdateRating(RatingModel ratingModel)
         {
-            var rating = _mapper.Map<Rating>(ratingModel);
+            var rating = await _ratingRepository.GetByIdAsync(ratingModel.Id);
+
+            if (rating == null)
+            {
+                return false;
+            }
+
+            rating.ProductId = ratingModel.ProductId;
+            rating.RatingValue = ratingModel.RatingValue;
+            rating.UserId = ratingModel.UserId;
 
             return await _ratingRepository.Update(rating);
+        }
+
+        public async Task<IEnumerable<Rating>> GetRatingsByProductId(string productId)
+        {
+            var ratings = await _ratingRepository.GetRatingsByProductId(productId);
+
+            if (ratings == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<Rating>>(ratings);
         }
     }
 }

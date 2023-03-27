@@ -15,10 +15,12 @@ namespace ProductServices.Core.Interfaces
 
         public Task<LikeModel> GetLikeByIdAsync(string id);
 
-        public Task<bool> UpdateLike(LikeModel like, string id);
+        public Task<bool> UpdateLike(LikeModel like);
 
         public Task<IEnumerable<LikeModel>> GetAllLikesAsync();
 
         public Task<bool> AddLikesAsync(IEnumerable<LikeModel> likes);
+
+        public Task<LikeModel> GetLikeByProductId(string productId);
     }
 }

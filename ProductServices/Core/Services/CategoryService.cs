@@ -27,14 +27,14 @@ namespace ProductServices.Core.Services
             return await _categoryRepository.AddRangeAsync(categotyList);
         }
 
-        public async Task<bool> AddCategotyAsync(CategoryModel categoryModel)
+        public async Task<bool> AddCategoryAsync(CategoryModel categoryModel)
         {
             var category = _mapper.Map<Category>(categoryModel);
 
             return await _categoryRepository.AddAsync(category);
         }
 
-        public async Task<bool> DeleteCategotyAsync(string id)
+        public async Task<bool> DeleteCategoryAsync(string id)
         {
             return await _categoryRepository.DeleteAsync(id);
         }
@@ -46,7 +46,7 @@ namespace ProductServices.Core.Services
             return _mapper.Map<List<CategoryModel>>(categories);
         }
 
-        public async Task<CategoryModel> GetCategotyByIdAsync(string id)
+        public async Task<CategoryModel> GetCategoryByIdAsync(string id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
 
@@ -56,9 +56,17 @@ namespace ProductServices.Core.Services
             return _mapper.Map<CategoryModel>(category);
         }
 
-        public async Task<bool> UpdateCategory(CategoryModel categoryModel, string id)
+        public async Task<bool> UpdateCategory(CategoryModel categoryModel)
         {
-            var category = _mapper.Map<Category>(categoryModel);
+            var category = await _categoryRepository.GetByIdAsync(categoryModel.CategoryId);
+
+            if (category == null)
+            {
+                return false;
+            }
+
+            category.CategoryName = categoryModel.CategoryName;
+            category.Description = categoryModel.Description;
 
             return await _categoryRepository.Update(category);
         }
