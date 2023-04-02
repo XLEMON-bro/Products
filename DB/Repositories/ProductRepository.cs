@@ -62,5 +62,31 @@ namespace DB.Repositories
                 return Enumerable.Empty<T>();
             }
         }
+
+        public async Task<bool> DeleteOnCascadeByID(string id)
+        {
+            try
+            {
+                var productWithDetails = await GetProductWithDetails(id);
+
+                if (productWithDetails == null)
+                {
+                    return false;
+                }
+
+                _context.Remove(productWithDetails);
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

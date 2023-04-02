@@ -58,9 +58,9 @@ namespace ProductServices.Core.Services
             return await _productRepository.AddRangeAsync(productList);
         }
 
-        public async Task<bool> DeleteProductAsync(string id)
+        public async Task<bool> DeleteProductCascadeAsync(string id)
         {
-            return await _productRepository.DeleteAsync(id);
+            return await _productRepository.DeleteOnCascadeByID(id);
         }
 
         public async Task<IEnumerable<ProductModel>> GetAllProductsAsync()

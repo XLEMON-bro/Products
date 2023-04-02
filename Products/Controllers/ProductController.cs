@@ -25,45 +25,83 @@ namespace Products.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult> GetProductById(string id)
+        public async Task<ActionResult<ProductWithDetailsModel>> GetProductWithDetailsById(string id)
         {
-            return new JsonResult("mostpopularproducts");
+            var product = await _productService.GetProductWithDetailsById(id);
+
+            if(product == null)
+            {
+                return BadRequest($"Failed to find product with ID: {id}");
+            }
+
+            return Ok(product);
         }
 
         [HttpGet]
-        [Route("all")]
-        public async Task<ActionResult> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetAllProducts()
         {
-            return new JsonResult("mostpopularproducts");
+            var products = await _productService.GetAllProductsAsync();
+
+            return Ok(products);
         }
 
         [HttpGet]
-        [Route("paginated")]
-        public async Task<ActionResult> GetPaginatedProducts(int? pageIndex = 1, int? pageSize = 10)
+        [Route("paginated/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetPaginatedProductsByCategory(string categoryId , int? pageIndex = 1, int? pageSize = 10)
         {
-            return new JsonResult("mostpopularproducts");
+            var paginatedProducts = await _productService.GetPaginatedProductsByCategoryAsync((int)pageIndex, (int)pageSize, categoryId);
+
+            return Ok(paginatedProducts);
+        }
+
+        [HttpGet]
+        [Route("paginated/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductsByCategory(string categoryId, int? size = 3)
+        {
+            var products = await _productService.GetProductsByCategory((int)size, categoryId);
+
+            return Ok(products);
         }
 
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> UpdateProduct(ProductWithDetailsModel productWithDetails)
         {
+            var updated = await _productService.UpdateProduct(productWithDetails);
 
-            
-            return Ok();
+            if (updated)
+            {
+                return Ok();
+            }
+
+            return BadRequest($"Failed to update product with Id: {productWithDetails.ProductId}");
         }
 
         [HttpPost]
         public async Task<ActionResult> AddProducts(List<ProductWithDetailsModel> productsWithDetails)
         {
-            return new JsonResult("mostpopularproducts");
+            var added = await _productService.AddProductsWithDetailsAsync(productsWithDetails);
+
+            if (added)
+            {
+                return Ok();
+            }
+
+            return BadRequest($"Failed to add Products.");
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> DeleteProductById(string id)
         {
-            return new JsonResult("mostpopularproducts");
+            var deleted = await _productService.DeleteProductCascadeAsync(id);
+
+            if (deleted)
+            {
+                return Ok();
+            }
+
+            return BadRequest($"Failed to Delete Product : {id}");
         }
     }
 }

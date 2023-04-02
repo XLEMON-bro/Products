@@ -11,7 +11,7 @@ namespace ProductServices.Core.Interfaces
     {
         public Task<bool> AddProductAsync(ProductModel product);
 
-        public Task<bool> DeleteProductAsync(string id);
+        public Task<bool> DeleteProductCascadeAsync(string id);
 
         public Task<ProductModel> GetProductByIdAsync(string id);
 

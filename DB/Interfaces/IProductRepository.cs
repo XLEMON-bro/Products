@@ -13,5 +13,7 @@ namespace DB.Interfaces
         Task<Product> GetProductWithDetails(string id);
 
         Task<IEnumerable<Product>> GetProductsByCategory(int Size, string categoryId);
+
+        Task<bool> DeleteOnCascadeByID(string id);
     }
 }
