@@ -55,7 +55,7 @@ namespace Products.Controllers
         }
 
         [HttpGet]
-        [Route("paginated/{categoryId}")]
+        [Route("{categoryId}")]
         public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductsByCategory(string categoryId, int? size = 3)
         {
             var products = await _productService.GetProductsByCategory((int)size, categoryId);
@@ -64,7 +64,6 @@ namespace Products.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
         public async Task<ActionResult> UpdateProduct(ProductWithDetailsModel productWithDetails)
         {
             var updated = await _productService.UpdateProduct(productWithDetails);
