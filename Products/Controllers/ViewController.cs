@@ -48,9 +48,9 @@ namespace Products.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddView(ViewModel viewModel)
+        public async Task<ActionResult> AddViews(List<ViewModel> viewsModel)
         {
-            var added = await _viewService.AddViewAsync(viewModel);
+            var added = await _viewService.AddViewsAsync(viewsModel);
 
             if (added) 
             {

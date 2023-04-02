@@ -3,6 +3,7 @@ using DB.Interfaces;
 using DB.Models;
 using ProductServices.Core.Interfaces;
 using ProductServices.DataModels;
+using ProductServices.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,12 +25,35 @@ namespace ProductServices.Core.Services
         {
             var rating = _mapper.Map<Rating>(ratingModel);
 
+            var guid = GuidHelper.GenerateGuid();
+
+            while(await _ratingRepository.GetByIdAsync(guid) != null)
+            {
+                guid = GuidHelper.GenerateGuid();
+            }
+
+            rating.Id = guid;
+
             return await _ratingRepository.AddAsync(rating);
         }
 
         public async Task<bool> AddRatingsAsync(IEnumerable<RatingModel> ratingsModel)
         {
             var ratingList = _mapper.Map<List<Rating>>(ratingsModel);
+
+            var guid = string.Empty;
+
+            foreach (var rating in ratingList)
+            {
+                guid = GuidHelper.GenerateGuid();
+
+                while (await _ratingRepository.GetByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                rating.Id = guid;
+            }
 
             return await _ratingRepository.AddRangeAsync(ratingList);
         }

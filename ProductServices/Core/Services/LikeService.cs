@@ -3,6 +3,7 @@ using DB.Interfaces;
 using DB.Models;
 using ProductServices.Core.Interfaces;
 using ProductServices.DataModels;
+using ProductServices.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,12 +25,35 @@ namespace ProductServices.Core.Services
         {
             var like = _mapper.Map<Like>(likeModel);
 
+            var guid = GuidHelper.GenerateGuid();
+
+            while(await _likeRepository.GetByIdAsync(guid) != null)
+            {
+                guid = GuidHelper.GenerateGuid();
+            }
+
+            like.Id = guid;
+
             return await _likeRepository.AddAsync(like);
         }
 
         public async Task<bool> AddLikesAsync(IEnumerable<LikeModel> likesModel)
         {
             var likes = _mapper.Map<List<Like>>(likesModel);
+
+            var guid = string.Empty;
+
+            foreach(var like in likes)
+            {
+                guid = GuidHelper.GenerateGuid();
+
+                while (await _likeRepository.GetByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                like.Id = guid;
+            }
 
             return await _likeRepository.AddRangeAsync(likes);
         }

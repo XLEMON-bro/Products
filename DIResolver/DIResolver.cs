@@ -31,6 +31,7 @@ namespace DIResolver
             serviceCollection.AddScoped<ILikeService, LikeService>();
             serviceCollection.AddScoped<IRatingService, RatingService>();
             serviceCollection.AddScoped<IProductService, ProductService>();
+            serviceCollection.AddScoped<IRecomendationRepository, RecomendationRepository>();
 
             //Product Mapper
             serviceCollection.AddAutoMapper(typeof(MappingProfile));

@@ -27,30 +27,30 @@ namespace Products.Controllers
         [Route("{id}")]
         public async Task<ActionResult<LikeModel>> GetLikeById(string id)
         {
-            var view = await _likeService.GetLikeByIdAsync(id);
+            var like = await _likeService.GetLikeByIdAsync(id);
 
-            if (view == null)
+            if (like == null)
                 return NotFound($"There is no View with ID: {id}");
 
-            return Ok(view);
+            return Ok(like);
         }
 
         [HttpGet]
         [Route("product/{id}")]
         public async Task<ActionResult<LikeModel>> GetLikeByProductId(string id)
         {
-            var view = await _likeService.GetLikeByProductId(id);
+            var likes = await _likeService.GetLikeByProductId(id);
 
-            if (view == null)
+            if (likes == null)
                 return NotFound($"There is no View with ProductID: {id}");
 
-            return Ok(view);
+            return Ok(likes);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddLike(LikeModel likeModel)
+        public async Task<ActionResult> AddLikes(List<LikeModel> likesModel)
         {
-            var added = await _likeService.AddLikeAsync(likeModel);
+            var added = await _likeService.AddLikesAsync(likesModel);
 
             if (added)
             {

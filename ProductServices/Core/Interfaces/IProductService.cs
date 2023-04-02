@@ -25,7 +25,7 @@ namespace ProductServices.Core.Interfaces
 
         public Task<ProductWithDetailsModel> GetProductWithDetailsById(string id);
 
-        public Task<bool> AddProductWithDetailsAsync(ProductWithDetailsModel product);
+        public Task<bool> AddProductsWithDetailsAsync(List<ProductWithDetailsModel> product);
 
         public Task<IEnumerable<ProductModel>> GetProductsByCategory(int Size, string categoryId);
     }

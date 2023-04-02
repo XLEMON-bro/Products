@@ -3,6 +3,7 @@ using DB.Interfaces;
 using DB.Models;
 using ProductServices.Core.Interfaces;
 using ProductServices.DataModels;
+using ProductServices.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,12 +25,35 @@ namespace ProductServices.Core.Services
         {
             var product = _mapper.Map<Product>(productModel);
 
+            var guid = GuidHelper.GenerateGuid();
+
+            while(await _productRepository.GetByIdAsync(guid) != null)
+            {
+                guid = GuidHelper.GenerateGuid();
+            }
+
+            product.ProductId = guid;
+
             return await _productRepository.AddAsync(product);
         }
 
         public async Task<bool> AddProductsAsync(IEnumerable<ProductModel> productsModel)
         {
             var productList = _mapper.Map<List<Product>>(productsModel);
+
+            var guid = string.Empty;
+
+            foreach(var product in productList)
+            {
+                guid = GuidHelper.GenerateGuid();
+
+                while (await _productRepository.GetByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                product.ProductId = guid;
+            }
 
             return await _productRepository.AddRangeAsync(productList);
         }
@@ -95,11 +119,63 @@ namespace ProductServices.Core.Services
             return _mapper.Map<ProductWithDetailsModel>(product);
         }
 
-        public async Task<bool> AddProductWithDetailsAsync(ProductWithDetailsModel productModel)
+        public async Task<bool> AddProductsWithDetailsAsync(List<ProductWithDetailsModel> productModel)
         {
-            var product = _mapper.Map<Product>(productModel);
+            var products = _mapper.Map<List<Product>>(productModel);
 
-            return await _productRepository.AddAsync(product);
+            foreach (var product in products)
+            {
+                var guid = GuidHelper.GenerateGuid();
+
+                while (await _productRepository.GetByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                product.ProductId = guid;
+
+                if (product.Category != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                    product.Category.CategoryId = guid;
+                    product.CategoryId = guid;
+                }
+
+                if (product.View != null)
+                {
+                    product.View.Id = GuidHelper.GenerateGuid();
+                    product.View.ProductId = product.ProductId;
+                }
+                else
+                {
+                    product.View = new View
+                    {
+                        Id = GuidHelper.GenerateGuid(),
+                        ProductId = product.ProductId
+                    };
+                }
+
+                if (product.Like != null)
+                {
+                    product.Like.Id = GuidHelper.GenerateGuid();
+                    product.Like.ProductId = product.ProductId;
+                }
+                else
+                {
+                    product.Like = new Like
+                    {
+                        Id = GuidHelper.GenerateGuid(),
+                        ProductId = product.ProductId
+                    };
+                }
+
+                foreach (var rating in product.Raiting)
+                {
+                    rating.Id = GuidHelper.GenerateGuid();
+                    rating.ProductId = product.ProductId;
+                }
+            }
+            return await _productRepository.AddRangeAsync(products);
         }
 
         public async Task<IEnumerable<ProductModel>> GetProductsByCategory(int Size, string categoryId)

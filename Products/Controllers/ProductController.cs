@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProductServices.Core.Interfaces;
+using ProductServices.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace Products.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult> UpdateProduct(string id)
+        public async Task<ActionResult> UpdateProduct(ProductWithDetailsModel productWithDetails)
         {
 
             
@@ -53,14 +54,7 @@ namespace Products.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddProduct()
-        {
-            return new JsonResult("mostpopularproducts");
-        }
-
-        [HttpPost]
-        [Route("addrange")]
-        public async Task<ActionResult> AddProducts()
+        public async Task<ActionResult> AddProducts(List<ProductWithDetailsModel> productsWithDetails)
         {
             return new JsonResult("mostpopularproducts");
         }

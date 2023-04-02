@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProductServices.Core.Interfaces;
+using ProductServices.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +25,59 @@ namespace Products.Controllers
         }
 
         [HttpGet]
-        [Route("mostpopular")]
-        public async Task<JsonResult> GetMostPopularProducts()
+        [Route("mostlikedtoday")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetMostLikedProducts()
         {
-            return new JsonResult("mostpopularproducts");
+            var products = await _recomendationService.GetMostLikedTodayProducts();
+
+            if(products == null)
+            {
+                return BadRequest($"Unable to get most liked products.");
+            }
+
+            return Ok(products);
         }
 
         [HttpGet]
-        [Route("bycategory")]
-        public async Task<JsonResult> GetPopularProductsByCategory(string category)
+        [Route("mostlikedtoday/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetMostLikedByCategotyProducts(string categoryId)
         {
-            return new JsonResult("popularbycategory");
+            var products = await _recomendationService.GetMostLikedTodayProductsByCategory(categoryId);
+
+            if (products == null)
+            {
+                return BadRequest($"Unable to get most liked products by category.");
+            }
+
+            return Ok(products);
+        }
+
+        [HttpGet]
+        [Route("mostviewed")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetMostViewedProducts()
+        {
+            var products = await _recomendationService.GetMostViewedTodayProducts();
+
+            if (products == null)
+            {
+                return BadRequest($"Unable to get most viewed products.");
+            }
+
+            return Ok(products);
+        }
+
+        [HttpGet]
+        [Route("mostviewed/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetMostViewedByCategoryProducts(string categoryId)
+        {
+            var products = await _recomendationService.GetMostViewedTodayProductsByCategory(categoryId);
+
+            if (products == null)
+            {
+                return BadRequest($"Unable to get most viewed products by category.");
+            }
+
+            return Ok(products);
         }
     }
 }

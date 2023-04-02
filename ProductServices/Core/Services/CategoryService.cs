@@ -3,6 +3,7 @@ using DB.Interfaces;
 using DB.Models;
 using ProductServices.Core.Interfaces;
 using ProductServices.DataModels;
+using ProductServices.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,12 +25,35 @@ namespace ProductServices.Core.Services
         {
             var categotyList = _mapper.Map<List<Category>>(categoriesModel);
 
+            var guid = string.Empty;
+
+            foreach (var category in categotyList)
+            {
+                guid = GuidHelper.GenerateGuid();
+
+                while (await _categoryRepository.GetByIdAsync(guid) != null)
+                {
+                    guid = GuidHelper.GenerateGuid();
+                }
+
+                category.CategoryId = guid;
+            }
+
             return await _categoryRepository.AddRangeAsync(categotyList);
         }
 
         public async Task<bool> AddCategoryAsync(CategoryModel categoryModel)
         {
             var category = _mapper.Map<Category>(categoryModel);
+
+            var guid = GuidHelper.GenerateGuid();
+
+            while (await _categoryRepository.GetByIdAsync(guid) != null)
+            {
+                guid = GuidHelper.GenerateGuid();
+            }
+
+            category.CategoryId = guid;
 
             return await _categoryRepository.AddAsync(category);
         }

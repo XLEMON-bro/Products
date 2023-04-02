@@ -41,10 +41,12 @@ namespace ProductServices.Core.Services
         {
             var viewList = _mapper.Map<List<View>>(viewsModel);
 
-            var guid = GuidHelper.GenerateGuid();
+            var guid = string.Empty;
 
             foreach (var view in viewList)
             {
+                guid = GuidHelper.GenerateGuid();
+
                 while (await GetViewByIdAsync(guid) != null)
                 {
                     guid = GuidHelper.GenerateGuid();

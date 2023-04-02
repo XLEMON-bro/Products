@@ -27,29 +27,29 @@ namespace Products.Controllers
         [Route("{id}")]
         public async Task<ActionResult<CategoryModel>> GetCategoryById(string id)
         {
-            var view = await _categoryService.GetCategoryByIdAsync(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id);
 
-            if (view == null)
+            if (category == null)
                 return NotFound($"There is no View with ID: {id}");
 
-            return Ok(view);
+            return Ok(category);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryModel>>> GetCategories()
         {
-            var view = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
 
-            if (view == null)
+            if (categories == null)
                 return BadRequest($"Unable to get all gategories.");
 
-            return Ok(view);
+            return Ok(categories);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCategory(CategoryModel categoryModel)
+        public async Task<ActionResult> AddCategories(List<CategoryModel> categoriesModel)
         {
-            var added = await _categoryService.AddCategoryAsync(categoryModel);
+            var added = await _categoryService.AddCategoriesAsync(categoriesModel);
 
             if (added)
             {

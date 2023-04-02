@@ -39,18 +39,18 @@ namespace Products.Controllers
         [Route("product/{id}")]
         public async Task<ActionResult<IEnumerable<RatingModel>>> GetRatingsByProductId(string id)
         {
-            var rating = await _ratingService.GetRatingsByProductId(id);
+            var ratings = await _ratingService.GetRatingsByProductId(id);
 
-            if (rating == null)
+            if (ratings == null)
                 return NotFound($"There is no View with ProductID: {id}");
 
-            return Ok(rating);
+            return Ok(ratings);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddRating(RatingModel ratingModel)
+        public async Task<ActionResult> AddRatings(List<RatingModel> ratingsModel)
         {
-            var added = await _ratingService.AddRatingAsync(ratingModel);
+            var added = await _ratingService.AddRatingsAsync(ratingsModel);
 
             if (added)
             {
