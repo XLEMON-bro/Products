@@ -13,9 +13,9 @@ namespace ProductServices.DataModels
         public string Name { get; set; }
         public string ImageURL { get; set; }
         public string CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual List<Rating> Raiting { get; set; }
-        public virtual View View { get; set; }
-        public virtual Like Like { get; set; }
+        public virtual CategoryModel Category { get; set; }
+        public virtual List<RatingModel> Raiting { get; set; }
+        public virtual ViewModel View { get; set; }
+        public virtual LikeModel Like { get; set; }
     }
 }

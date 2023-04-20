@@ -101,10 +101,10 @@ namespace ProductServices.Core.Services
             product.Name = productModel.Name;
             product.ImageURL = productModel.ImageURL;
             product.CategoryId = productModel.CategoryId;
-            product.Category = productModel.Category == null ? product.Category : productModel.Category;
-            product.View = productModel.View == null ? product.View : productModel.View;
-            product.Like = productModel.Like == null ? product.Like : productModel.Like;
-            product.Raiting = productModel.Raiting.Count == 0 ? product.Raiting : productModel.Raiting;
+            product.Category = productModel.Category == null ? product.Category : _mapper.Map<Category>(productModel.Category);
+            product.View = productModel.View == null ? product.View : _mapper.Map<View>(productModel.View);
+            product.Like = productModel.Like == null ? product.Like : _mapper.Map<Like>(productModel.Like);
+            product.Raiting = productModel.Raiting.Count == 0 ? product.Raiting : _mapper.Map<List<Rating>>(productModel.Raiting);
 
             return await _productRepository.Update(product);
         }
