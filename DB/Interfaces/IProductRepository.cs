@@ -10,6 +10,8 @@ namespace DB.Interfaces
     {
         Task<IEnumerable<T>> GetPaginatedAsync(int pageIndex, int pageSize, string categoryId);
 
+        Task<int> GetAmountOfPagesForCategoryAsync(int pageSize, string categoryId);
+
         Task<Product> GetProductWithDetails(string id);
 
         Task<IEnumerable<Product>> GetProductsByCategory(int Size, string categoryId);

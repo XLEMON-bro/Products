@@ -47,11 +47,19 @@ namespace Products.Controllers
 
         [HttpGet]
         [Route("paginated/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetPaginatedProductsByCategory(string categoryId, int? pageIndex = 1, int? pageSize = 10)
+        public async Task<ActionResult<PaginatedProductModel>> GetPaginatedProductsByCategory(string categoryId, int? pageIndex = 1, int? pageSize = 10)
         {
             var paginatedProducts = await _productService.GetPaginatedProductsByCategoryAsync((int)pageIndex, (int)pageSize, categoryId);
 
-            return Ok(paginatedProducts);
+            var pagesAmount = await _productService.GetAmountOfPagesForCategoryAsync((int)pageSize, categoryId);
+
+            var Data = new PaginatedProductModel()
+            {
+                Pages = pagesAmount,
+                Products = paginatedProducts
+            };
+
+            return Ok(Data);
         }
 
         [HttpGet]

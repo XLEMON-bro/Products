@@ -23,6 +23,8 @@ namespace ProductServices.Core.Interfaces
 
         public Task<IEnumerable<ProductModel>> GetPaginatedProductsByCategoryAsync(int pageIndex, int pageSize, string categoryId);
 
+        public Task<int> GetAmountOfPagesForCategoryAsync(int pageSize, string categoryId);
+
         public Task<ProductWithDetailsModel> GetProductWithDetailsById(string id);
 
         public Task<bool> AddProductsWithDetailsAsync(List<ProductWithDetailsModel> product);

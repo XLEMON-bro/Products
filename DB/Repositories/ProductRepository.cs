@@ -30,6 +30,20 @@ namespace DB.Repositories
             }
         }
 
+        public async Task<int> GetAmountOfPagesForCategoryAsync(int pageSize, string categoryId)
+        {
+            try
+            {
+                var products = await _dbSet.Where(p => p.CategoryId == categoryId).ToListAsync();
+                return (int)Math.Ceiling((double)products.Count() / pageSize);
+
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
+        }
+
         public async Task<Product> GetProductWithDetails(string id)
         {
             try

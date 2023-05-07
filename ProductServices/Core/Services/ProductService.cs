@@ -77,6 +77,11 @@ namespace ProductServices.Core.Services
             return _mapper.Map<List<ProductModel>>(produts);
         }
 
+        public async Task<int> GetAmountOfPagesForCategoryAsync(int pageSize, string categoryId)
+        {
+            return await _productRepository.GetAmountOfPagesForCategoryAsync(pageSize, categoryId);
+        }
+
         public async Task<ProductModel> GetProductByIdAsync(string id)
         {
             var product = await _productRepository.GetByIdAsync(id);
