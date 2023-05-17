@@ -64,7 +64,7 @@ namespace Products.Controllers
 
         [HttpGet]
         [Route("category/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductsByCategory(string categoryId, int? size = 3)
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductsByCategory(string categoryId, int? size = 2)
         {
             var products = await _productService.GetProductsByCategory((int)size, categoryId);
 
