@@ -46,8 +46,8 @@ namespace Products.Controllers
         }
 
         [HttpGet]
-        [Route("paginated/{categoryId}")]
-        public async Task<ActionResult<PaginatedProductModel>> GetPaginatedProductsByCategory(string categoryId, int? pageIndex = 1, int? pageSize = 10)
+        [Route("paginated/{categoryId}/{pageIndex}")]
+        public async Task<ActionResult<PaginatedProductModel>> GetPaginatedProductsByCategory(string categoryId, int pageIndex = 1, int? pageSize = 6)
         {
             var paginatedProducts = await _productService.GetPaginatedProductsByCategoryAsync((int)pageIndex, (int)pageSize, categoryId);
 
